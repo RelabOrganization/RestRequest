@@ -39,7 +39,8 @@ public:
         {
             MemoryOutputStream output;
 
-            fields.writeAsJSON (output, 0, false, 20);
+            JSON::FormatOptions options{};
+            fields.writeAsJSON (output, options.withIndentLevel(2).withMaxDecimalPlaces(5));
             urlRequest = urlRequest.withPOSTData (output.toString());
         }
 
