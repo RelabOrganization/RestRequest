@@ -38,9 +38,12 @@ public:
         if (hasFields)
         {
             MemoryOutputStream output;
-
-            JSON::FormatOptions options{};
-            fields.writeAsJSON (output, options.withIndentLevel(2).withMaxDecimalPlaces(5));
+#if (JUCE_VERSION >= 0x07000A)
+            juce::JSON::FormatOptions options;
+            fields.writeAsJSON(output, options.withIndentLevel(2).withMaxDecimalPlaces(5));
+#else
+		    fields.writeAsJSON (output, 2, false, 5);
+#endif
             urlRequest = urlRequest.withPOSTData (output.toString());
         }
 
